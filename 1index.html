@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>                                                                                                                                                                                                                                      <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090b16">
+<title>GameZone Arcade</title>
+<style>
+:root{--bg:#090b16;--panel:#12172a;--panel2:#1a2140;--text:#f4f6ff;--muted:#a8b0ce;--cyan:#45e6e0;--pink:#ff4f9a;--purple:#9872ff}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 80% 0%,#25204b 0,transparent 32%),var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+header{padding:22px max(5%,calc((100% - 1180px)/2));display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff16;position:sticky;top:0;background:#090b16eF;backdrop-filter:blur(12px);z-index:5}
+.logo{font-size:24px;font-weight:900;letter-spacing:.5px}.logo span{color:var(--cyan)}
+nav{display:flex;gap:18px}
+nav a{color:var(--muted);text-decoration:none;font-size:14px}
+nav a:hover{color:var(--cyan)}
+main{max-width:1180px;margin:auto;padding:34px 22px 70px}
+.hero{padding:34px;border:1px solid #ffffff18;border-radius:24px;background:linear-gradient(115deg,#191d39,#22183c 65%,#162b3d);display:flex;justify-content:space-between;align-items:center;gap:20px;overflow:hidden}
+.eyebrow{color:var(--cyan);font-weight:bold;text-transform:uppercase;letter-spacing:2px;font-size:12px}
+.hero h1{font-size:clamp(32px,5vw,56px);line-height:1.04;margin:12px 0}
+.hero p{color:var(--muted);max-width:560px;line-height:1.6}
+.hero-art{font-size:100px;filter:drop-shadow(0 0 24px #9872ff88)}
+.searchrow{display:flex;gap:12px;margin:26px 0 18px}
+.searchrow input{flex:1;min-width:0;background:var(--panel);border:1px solid #ffffff20;border-radius:12px;padding:14px 16px;color:white;font-size:15px;outline:none}
+.searchrow input:focus{border-color:var(--cyan)}
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:22px}
+.filter{border:1px solid #ffffff20;background:var(--panel);color:var(--muted);padding:9px 14px;border-radius:30px;cursor:pointer}
+.filter.active,.filter:hover{background:#243c4b;color:var(--cyan);border-color:var(--cyan)}
+.sectionhead{display:flex;justify-content:space-between;align-items:end;margin:24px 0 14px}
+.sectionhead h2{margin:0;font-size:23px}
+.sectionhead small{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.game{background:linear-gradient(145deg,var(--panel2),var(--panel));border:1px solid #ffffff14;border-radius:17px;overflow:hidden;transition:.2s}
+.game:hover{transform:translateY(-4px);border-color:#45e6e077}
+.thumb{height:130px;display:grid;place-items:center;font-size:60px;background:radial-gradient(circle at 50% 70%,#ffffff22,transparent 55%),linear-gradient(135deg,#202a54,#38234d)}
+.gamebody{padding:15px}
+.gamebody h3{margin:0 0 6px}
+.gamebody p{margin:0 0 13px;color:var(--muted);font-size:13px;min-height:32px;line-height:1.4}
+.meta{display:flex;justify-content:space-between;align-items:center}
+.tag{font-size:11px;color:var(--cyan);background:#45e6e014;padding:5px 8px;border-radius:20px}
+.play{border:0;background:linear-gradient(90deg,var(--purple),var(--pink));color:white;font-weight:bold;padding:9px 15px;border-radius:9px;cursor:pointer}
+.modal{display:none;position:fixed;inset:0;background:#000c;z-index:10;padding:18px;overflow:auto}
+.modal.open{display:grid;place-items:center}
+.modalbox{width:min(760px,100%);background:#11172a;border:1px solid #ffffff2a;border-radius:18px;padding:20px;max-height:95vh;overflow:auto}
+.modalhead{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.modalhead h2{margin:0}
+.close{background:#29304b;color:white;border:0;border-radius:8px;padding:8px 12px;cursor:pointer}
+.stage{margin-top:16px;min-height:280px;display:grid;place-items:center;background:#080c19;border-radius:13px;padding:18px;text-align:center}
+.stage button{cursor:pointer}
+.instructions{color:var(--muted);font-size:13px;line-height:1.5;margin-top:12px}
+canvas{max-width:100%;background:#050914;border:1px solid #ffffff20;border-radius:8px;touch-action:manipulation}
+.tic{display:grid;grid-template-columns:repeat(3,85px);gap:8px}
+.tic button{height:85px;font-size:34px;background:#202747;color:white;border:1px solid #ffffff22;border-radius:10px}
+.memory{display:grid;grid-template-columns:repeat(4,60px);gap:8px}
+.memory button{height:60px;font-size:24px;background:#252d50;color:white;border:0;border-radius:9px}
+.numbergrid{display:grid;grid-template-columns:repeat(4,60px);gap:5px;background:#323b55;padding:6px;border-radius:8px}
+.numbergrid div{height:60px;display:grid;place-items:center;background:#171f38;border-radius:5px;font-weight:bold}
+.numbergrid div.filled{background:#51447c;color:white}
+.authnav{border:1px solid #45e6e088;background:#15283a;color:var(--cyan);padding:8px 11px;border-radius:9px;font-weight:bold;cursor:pointer}
+.signupnav{background:linear-gradient(90deg,var(--purple),var(--pink));color:white;border:0}
+.userbadge{color:var(--cyan);font-size:13px}
+.authmodal{display:none;position:fixed;inset:0;background:#000c;z-index:20;padding:18px;place-items:center}
+.authmodal.open{display:grid}
+.authbox{width:min(420px,100%);background:#11172a;border:1px solid #ffffff2a;border-radius:18px;padding:22px;text-align:left}
+.authbox h2{margin:0 0 8px}
+.authbox p{color:var(--muted);font-size:13px;line-height:1.5}
+.authbox label{display:block;margin:13px 0 6px;color:#dce3ff;font-size:13px}
+.authbox input{width:100%;padding:12px;border-radius:9px;border:1px solid #ffffff25;background:#080c19;color:white}
+.authactions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}
+.authmessage{min-height:20px;color:var(--cyan);font-size:13px}
+.authswitch{background:transparent;border:0;color:var(--cyan);cursor:pointer;padding:8px}
+.authnote{font-size:11px!important;color:#e7b85b!important}
+footer{text-align:center;color:var(--muted);padding:26px;border-top:1px solid #ffffff14;font-size:13px}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-art{font-size:70px}}
+@media(max-width:540px){
+header{padding:16px 18px;flex-wrap:wrap;gap:12px}
+nav{gap:7px;flex-wrap:wrap;align-items:center}
+nav a{font-size:12px}
+.authnav{font-size:11px;padding:7px 8px}
+.hero{padding:24px}
+.hero-art{display:none}
+.grid{grid-template-columns:1fr 1fr;gap:10px}
+.thumb{height:100px;font-size:46px}
+.gamebody{padding:11px}
+.gamebody h3{font-size:15px}
+.gamebody p{font-size:12px}
+.play{padding:8px 10px}
+.sectionhead h2{font-size:20px}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">GAME<span>ZONE</span> 🎮</div>
+<nav>
+<a href="#games">Games</a>
+<a href="#about">About</a>
+<button class="authnav" id="loginOpen">Login</button>
+<button class="authnav signupnav" id="signupOpen">Create account</button>
+<span id="userBadge" class="userbadge" hidden></span>
+<button class="authnav" id="logoutBtn" hidden>Logout</button>
+</nav>
+</header>
+
+<main>
+<section class="hero">
+<div>
+<div class="eyebrow">Your free arcade starts here</div>
+<h1>PLAY MORE.<br><span style="color:var(--cyan)">WORRY LESS.</span></h1>
+<p>Jump into quick, fun browser games. Create a demo account or log in, then pick a game and start playing!</p>
+</div>
+<div class="hero-art">🕹️</div>
+</section>
+
+<div class="searchrow">
+<input id="search" type="search" placeholder="Search games..." aria-label="Search games">
+</div>
+
+<div class="filters" id="filters">
+<button class="filter active" data-cat="All">All games</button>
+<button class="filter" data-cat="Arcade">Arcade</button>
+<button class="filter" data-cat="Puzzle">Puzzle</button>
+<button class="filter" data-cat="Classic">Classic</button>
+<button class="filter" data-cat="Skill">Skill</button>
+<button class="filter" data-cat="Brain">Brain</button>
+</div>
+
+<div class="sectionhead" id="games">
+<h2>🔥 Explore games</h2>
+<small id="count">14 games</small>
+</div>
+
+<section class="grid" id="grid"></section>
+
+<section id="about" style="margin-top:38px;color:var(--muted);line-height:1.6">
+<h2 style="color:white">About GameZone</h2>
+<p>GameZone is a simple free browser arcade demo. The games on this page are small original mini-games that run right in your browser. Login and account creation are demo-only and last for the current page session. Have fun!</p>
+</section>
+</main>
+
+<footer>© 2026 GameZone Arcade · Made for fun</footer>
+
+<div class="authmodal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+<div class="authbox">
+<div class="modalhead">
+<h2 id="authTitle">Login to GameZone</h2>
+<button class="close" id="authClose" type="button">✕</button>
+</div>
+<p id="authIntro">Welcome back! Enter your demo account details.</p>
+<form id="authForm">
+<div id="nameField" hidden>
+<label for="authName">Username</label>
+<input id="authName" autocomplete="username" placeholder="Choose a username">
+</div>
+<label for="authEmail">Email</label>
+<input id="authEmail" type="email" autocomplete="email" required placeholder="you@example.com">
+<label for="authPassword">Password</label>
+<input id="authPassword" type="password" autocomplete="current-password" minlength="6" required placeholder="At least 6 characters">
+<div class="authmessage" id="authMessage" aria-live="polite"></div>
+<div class="authactions">
+<button class="play" id="authSubmit" type="submit">Login</button>
+<button class="authswitch" id="authSwitch" type="button">Create an account</button>
+</div>
+</form>
+<p class="authnote">Demo only: accounts work in this page session and are not secure or shared across devices. Do not use a real password. For real accounts, connect Firebase Authentication or another secure backend.</p>
+</div>
+</div>
+
+<div class="modal" id="modal">
+<div class="modalbox">
+<div class="modalhead">
+<h2 id="gametitle">Game</h2>
+<button class="close" id="close">✕ Close</button>
+</div>
+<div class="stage" id="stage"></div>
+<div class="instructions" id="instructions"></div>
+</div>
+</div>
